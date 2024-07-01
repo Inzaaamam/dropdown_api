@@ -7,24 +7,20 @@ abstract class CountState extends Equatable {
   @override
   List<Object> get props => [];
 }
-
 class CountInitial extends CountState {}
 class CountLoading extends CountState {}
 class CountLoaded extends CountState {
   final List<CountryModel> countries;
   CountLoaded(this.countries);
-
   @override
   List<Object> get props => [countries];
 }
-
 class StateLoaded extends CountState {
   final List<StateModel> states;
   StateLoaded(this.states);
   @override
   List<Object> get props => [states];
 }
-
 class CityLoaded extends CountState {
   final List<City> city;
   CityLoaded(this.city);
