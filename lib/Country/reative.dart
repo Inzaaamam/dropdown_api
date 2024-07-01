@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 
 import 'package:dropdown_api/City/city_model.dart';
@@ -15,10 +17,12 @@ class ReactiveDrop extends StatelessWidget {
   final form = FormGroup({
     'country': FormControl<CountryModel>(validators: [Validators.required])
       ..valueChanges.listen((event) {
+        // ignore: 
         print('Changed to $event');
       }),
     'state': FormControl<StateModel>(validators: [Validators.required])
       ..valueChanges.listen((event) {
+        // ignore: 
         print('Changed to $event');
       }),
     'city': FormControl<City>(validators: [Validators.required])
@@ -41,12 +45,7 @@ class ReactiveDrop extends StatelessWidget {
         ),
         body: BlocListener<CountCubit, CountState>(
           listener: (context, state) {
-            if (state is StateLoaded) {
-              // form.control('state').reset();
-              // form.control('city').reset();
-            } else if (state is CityLoaded) {
-              // form.control('city').reset();
-            } else if (state is CountLoaded) {
+            if (state is CountLoaded) {
               form.control('state').reset();
               form.control('city').reset();
             }
@@ -57,18 +56,18 @@ class ReactiveDrop extends StatelessWidget {
                   context.read<CountCubit>().countries;
               List<StateModel> states = context.read<CountCubit>().states;
               List<City> cities = context.read<CountCubit>().city;
+// here is the code to get the data from the api and store it in the list we can runwithout thius code also
+              // if (state is CountLoaded) {
+              //   countries = state.countries;
+              // } else if (state is StateLoaded) {
+              //   states = state.states;
+              // } else if (state is CityLoaded) {
+              //   cities = state.city;
+              // }
 
-              if (state is CountLoaded) {
-                countries = state.countries;
-              } else if (state is StateLoaded) {
-                states = state.states;
-              } else if (state is CityLoaded) {
-                cities = state.city;
-              }
-
-              log('countries count: ' + countries.length.toString());
-              log('states count: ' + states.length.toString());
-              log('city count: ' + cities.length.toString());
+              // log('countries count: ' + countries.length.toString());
+              // log('states count: ' + states.length.toString());
+              // log('city count: ' + cities.length.toString());
 
               return ReactiveForm(
                 formGroup: form,
