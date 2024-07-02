@@ -1,10 +1,11 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:dropdown_api/City/city_model.dart';
 import 'package:dropdown_api/Country/api.dart';
+import 'package:dropdown_api/Country/db/db.dart';
 import 'package:dropdown_api/Country/state.dart';
 import 'package:dropdown_api/Country/model.dart';
 import 'package:dropdown_api/State/states_model.dart';
-
 class CountCubit extends Cubit<CountState> {
   final ApiClass api;
   List<CountryModel> countries = [];
@@ -41,30 +42,14 @@ class CountCubit extends Cubit<CountState> {
       emit(CountError("Failed to load states"));
     }
   }
+    void storedata(String country, String state, String city) async {
+    try {
+      await ApiDB.createItems(country, state, city);
+      emit(InsertData());
+    } catch (e) {
+      emit(CountError("Failed to store location"));
+    }
+  }
+   
 }
 
-// import 'package:bloc/bloc.dart';
-// import 'package:dropdown_api/Country/api.dart';
-// import 'package:dropdown_api/Country/state.dart';
-// class CountCubit extends Cubit<CountState> {
-//   final ApiClass api;
-//   CountCubit(this.api) : super(CountInitial());
-//   void fetchCountries() async {
-//     emit(CountLoading());
-//     try {
-//       final countries = await api.countryData();
-//       emit(CountLoaded(countries));
-//     } catch (e) {
-//       emit(CountError("Failed to load countries"));
-//     }
-//   }
-//   void fetchStates(String iso2) async {
-//     emit(CountLoading());
-//     try {
-//       final states = await api.stateData(iso2);
-//       emit(StateLoaded(states));
-//     } catch (e) {
-//       emit(CountError("Failed to load states"));
-//     }
-//   }
-// }

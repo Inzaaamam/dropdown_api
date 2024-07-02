@@ -27,7 +27,7 @@ class CityLoaded extends CountState {
   @override
   List<Object> get props => [city];
 }
-
+class InsertData extends CountState{}
 class CountError extends CountState {
   final String message;
   CountError(this.message);
